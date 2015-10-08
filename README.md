@@ -53,8 +53,8 @@ There are also options that you can specify for detection and changing of langua
    ```
 Values are:
 * `html` - detects or sets language based on `lang` attribute(property) of 
-* ```html <html lang="en">
-*   ```
+```html <html lang="en">
+  ```
 * `sibling` - detects or sets language based on closest element (upper) with `lang` attribute(property).  Ex. ```html <element lang="en"> ```
 * `self` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
 * `browser` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
