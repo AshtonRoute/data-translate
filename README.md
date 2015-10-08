@@ -21,14 +21,14 @@ Then you should add properties, that you want to be translated. For example, we'
   
     labelClearButton: {
         type: String,
-        computed: "t('labelClearButton', translations, currentLanguage)"  //you have to specify name of property and 2 required arguments :translations, currentLanguage, which are required for notify changes
+        computed: "t('labelClearButton', translations, currentLanguage)"  //you have to specify name of property and 2 required arguments :translations, currentLanguage, which are required for notify changes events
     },
     
     translations: {
         type: Object,
         notify: true,
         value: {
-            en: {labelClearButton: 'clear'},     //here you can add as many translations as youo want
+            en: {labelClearButton: 'clear'},     //here you can add as many translations as you want
             ru: {labelClearButton: 'стереть'}
         }
-        ```
+  ```
