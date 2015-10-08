@@ -1,0 +1,408 @@
+<script>
+    DataBehaviors = window.DataBehaviors || {};
+
+    DataBehaviors.DataTranslate = {
+
+        properties: {
+            _html_language: {
+                type: String,
+                observer: '_language_change'
+            },
+
+            currentLanguage: {
+                type: String,
+                notify: true
+            },
+
+            translations: {
+                type: Object,
+                notify: true
+            },
+
+            detectLanguageFrom: {
+                type: String,
+                notify: true,
+                reflectToAttribute: true,
+                value: 'html'
+            },
+
+            getLanguageFrom: {
+                type: String,
+                notify: true,
+                reflectToAttribute: true,
+                value: 'html'
+            },
+
+            detectRequestUrl: {
+                type: String
+            }
+        },
+
+        t: function (path) {
+            var element = this;
+            
+            if (element.translations && Object.keys(element.translations).length > 0) {
+                if (element.currentLanguage) {
+                    var current = element._getPropFromPath(element.translations[element.currentLanguage], path);
+
+                    if (current != null)
+                        return current;
+
+                    console.error("Couldn't find translations of '" + element.currentLanguage + '.' + path + "' for " + element.localName);
+                    return undefined;
+                }
+
+                console.error("You didn't specify currentLanguage for " + element.localName);
+                return undefined;
+            }
+
+            console.error("You didn't specify translations for " + element.localName);
+            return undefined;
+        },
+
+        detectLanguage: function() {
+            var element = this;
+
+            switch (element.detectLanguageFrom) {
+                case 'html':
+                case 'sibling':
+                case 'self':
+                    element.currentLanguage = element._dataTranslateDetect.lang;
+                    break;
+                case 'browser':
+                    element.currentLanguage = element._dataTranslateDetect.language.split('-')[0]
+                                              || element._dataTranslateDetect.userLanguage.split('-')[0]
+                                              || element._dataTranslateDetect.browserLanguage.split('-')[0]
+                                              || element._dataTranslateDetect.systemLanguage.split('-')[0];
+                    break;
+                case 'server':
+                    if(element.detectRequestUrl) {
+                        var xhr = new XMLHttpRequest();
+
+                        var handleStateChange = function () {
+                            switch (xhr.readyState) {
+                                case 0 : // UNINITIALIZED
+                                case 1 : // LOADING
+                                case 2 : // LOADED
+                                case 3 : // INTERACTIVE
+                                    break;
+                                case 4 : // COMPLETED
+                                    element.currentLanguage = JSON.parse(xhr.responseText).lang;
+                                    break;
+                                default: console.error(xhr.status + ': ' + xhr.statusText);
+                            }
+                        };
+
+                        xhr.open('GET', element.detectRequestUrl);
+                        xhr.onreadystatechange = handleStateChange;
+                        xhr.send();
+                    }
+                    else {
+                        console.error("You didn't specify detectRequestUrl property of " + element.localName);
+                    }
+                    break;
+                default :
+                    console.error("You didn't specify detectLanguageFrom property of " + element.localName);
+            }
+
+            setTimeout(function() {
+                if(!(element.currentLanguage && !/^\s*$/.test(element.currentLanguage)))
+                    console.error("Couldn't detect current language based on '" + element.getLanguageFrom + "' of " + element.localName);
+            }, 2000);
+        },
+
+        updateLanguage: function() {
+            var element = this;
+
+            if(element.currentLanguage)
+            switch (element.getLanguageFrom) {
+                case 'html':
+                case 'sibling':
+                case 'self':
+                    element._dataTranslateTarget.lang = element.currentLanguage;
+                    break;
+                case 'browser':
+                    if(element._dataTranslateTarget.language)
+                        element._dataTranslateTarget.language = element.currentLanguage;
+
+                    if(element._dataTranslateTarget.userLanguage)
+                        element._dataTranslateTarget.userLanguage = element.currentLanguage;
+
+                    if(element._dataTranslateTarget.browserLanguage)
+                        element._dataTranslateTarget.browserLanguage = element.currentLanguage;
+
+                    if(element._dataTranslateTarget.systemLanguage)
+                        element._dataTranslateTarget.systemLanguage = element.currentLanguage;
+                    break;
+                default :
+                    console.error("You didn't specify getLanguageFrom property of " + element.localName);
+            }
+        },
+
+        findAllDataTranslateOnPage: function() {
+            var element = this,
+                    data_children = [];
+
+            var all_elements = [].slice.call(document.getElementsByTagName('*'));
+
+            all_elements.forEach(function(child) {
+                if(element._isDataTranslateElement(child))
+                    data_children.push(child);
+            });
+
+            return data_children;
+        },
+
+        findAllDataTranslateChildren: function(deep) {
+            var element = this,
+                data_children = [];
+
+            deep = (typeof deep === 'undefined') ? true : deep;
+            var all_elements = deep ? [].slice.call(element.getElementsByTagName('*')) : [].slice.call(element.children);
+
+            all_elements.forEach(function(child) {
+                if(element._isDataTranslateElement(child))
+                    data_children.push(child);
+            });
+
+            return data_children;
+        },
+
+        findDataTranslateChildrenBySelector: function(selectors) {
+            var element = this,
+                    data_children = [];
+
+            var all_elements = [].slice.call(element.querySelectorAll(selectors));
+
+            all_elements.forEach(function(child) {
+                if(element._isDataTranslateElement(child))
+                    data_children.push(child);
+            });
+
+            return data_children;
+        },
+
+        setPropToAllDataTranslateOnPage: function(prop, newval) {
+            var element = this,
+                    data_children = element.findAllDataTranslateOnPage();
+
+            data_children.forEach(function(child) {
+                child[prop] = newval;
+            });
+        },
+
+        setPropToAllDataTranslateChildren: function(prop, newval, self, deep) {
+            var element = this,
+                data_children = element.findAllDataTranslateChildren(deep);
+
+            self = (typeof self === 'undefined') ? false : self;
+
+            if(self)
+                element[prop] = newval;
+
+            data_children.forEach(function(child) {
+                child[prop] = newval;
+            });
+        },
+
+        setPropToDataTranslateChildrenBySelector: function(selectors, prop, newval, self) {
+            var element = this,
+                    data_children = element.findDataTranslateChildrenBySelector(selectors);
+
+            self = (typeof self === 'undefined') ? false : self;
+
+            if(self)
+                element[prop] = newval;
+
+            data_children.forEach(function(child) {
+                child[prop] = newval;
+            });
+        },
+
+        removeTranslations: function(path) {
+            var element = this,
+                translation_keys = Object.keys(element.translations);
+
+            if (element.translations && translation_keys && translation_keys.length > 0) {
+                translation_keys.forEach(function(lang){
+                    var current = element._getPropFromPath(element.translations[lang], path);
+
+                    if(current != null)
+                        element._setPropFromPath(element.translations[lang], path, '');
+                    else
+                        console.error("Couldn't find translations of '" + element.currentLanguage + '.' + path + "' for " + element.localName);
+                });
+
+                return;
+            }
+
+            console.error("You didn't specify translations for " + element.localName);
+        },
+
+        _change_language_listener: function () {
+            var element = this,
+                observer = {},
+
+                    __findLangSibling = function (sibling) {
+                        while (sibling.parentNode && !sibling.hasAttribute('lang')) {
+                            if (sibling.parentNode != document) {
+                                sibling = sibling.parentNode;
+                            }
+                            else {
+                                sibling = undefined;
+                            }
+                        }
+
+                        return sibling;
+                    },
+
+                    __createMutationObserver = function (func) {
+                        return new MutationObserver(function (mutations) {
+                            mutations.forEach(function (mutation) {
+                                func(mutation);
+                            });
+                        });
+                    },
+
+                    __getFromHtmlAttr = function (mutation) {
+                        if (mutation.attributeName === 'lang')
+                            element._html_language = mutation.target.lang;
+                    },
+
+                    __getFromBrowser = function (changes) {
+                        changes.forEach(function(change) {
+                            switch (change.name) {
+                                case 'language':
+                                    element._html_language = change.object.language.split('-')[0];
+                                    break;
+                                case 'userLanguage':
+                                    element._html_language = change.object.userLanguage.split('-')[0];
+                                    break;
+                                case 'browserLanguage':
+                                    element._html_language = change.object.browserLanguage.split('-')[0];
+                                    break;
+                                case 'systemLanguage':
+                                    element._html_language = change.object.systemLanguage.split('-')[0];
+                                    break;
+                            }
+                        });
+                    };
+
+            observer = __createMutationObserver(__getFromHtmlAttr);
+
+            switch (element.getLanguageFrom) {
+                case 'html':
+                    element._dataTranslateTarget = document.documentElement;
+                    break;
+                case 'sibling':
+                    element._dataTranslateTarget = __findLangSibling(element);
+                    break;
+                case 'self':
+                    element._dataTranslateTarget = element;
+                    break;
+                case 'browser':
+                    element._dataTranslateTarget = window.navigator;
+                    observer = __getFromBrowser;
+                    break;
+                default :
+                    console.error("You didn't specify getLanguageFrom property of " + element.localName);
+            }
+
+            if(Object.prototype.toString.call(observer) == '[object MutationObserver]'){
+                observer.observe(element._dataTranslateTarget, {attributes: true});
+            }
+
+            if(Object.prototype.toString.call(observer) == '[object Function]'){
+                Object.observe(element._dataTranslateTarget, observer);
+            }
+
+            switch (element.detectLanguageFrom) {
+                case 'html':
+                    element._dataTranslateDetect = document.documentElement;
+                    break;
+                case 'sibling':
+                    element._dataTranslateDetect = __findLangSibling(element);
+                    break;
+                case 'self':
+                    element._dataTranslateDetect = element;
+                    break;
+                case 'browser':
+                    element._dataTranslateDetect = window.navigator;
+                    break;
+                case 'server':
+                    //observer = __createMutationObserver(__getFromHtmlAttr); TODO
+                    break;
+                default :
+                    console.error("You didn't specify detectLanguageFrom property of " + element.localName);
+            }
+        },
+
+        _language_change: function (newValue, oldValue) {
+            var element = this;
+
+            if (newValue && newValue !== element.currentLanguage && !/^\s*$/.test(newValue))
+                element.currentLanguage = newValue;
+        },
+
+        _getPropFromPath: function(obj, path) {
+            var paths = path.split('.');
+
+            for (var i = 0; i < paths.length; ++i) {
+                if (obj == undefined || obj[paths[i]] == undefined) {
+                    return undefined;
+                }
+                else {
+                    obj = obj[paths[i]];
+                }
+            }
+
+            return obj;
+        },
+
+        _setPropFromPath: function(obj, path, value) {
+            var paths = path.split('.');
+
+            for (var i = 0; i < paths.length - 1; ++i) {
+                if (obj == undefined || obj[paths[i]] == undefined) {
+                    return undefined;
+                }
+                else {
+                    obj = obj[paths[i]];
+                }
+            }
+
+            obj[paths.slice(-1)[0]] = value;
+        },
+
+        _deletePropFromPath: function(obj, path) {
+            var paths = path.split('.');
+
+            for (var i = 0; i < paths.length - 1; ++i) {
+                if (obj == undefined || obj[paths[i]] == undefined) {
+                    return undefined;
+                }
+                else {
+                    obj = obj[paths[i]];
+                }
+            }
+
+            delete obj[paths.slice(-1)[0]];
+        },
+
+        _isDataTranslateElement: function(element) {
+            return !!('_html_language' in element
+            && 'currentLanguage' in element
+            && 'translations' in element
+            && 'detectLanguageFrom' in element
+            && 'getLanguageFrom' in element);
+        },
+
+        attached: function () {
+            var element = this;
+
+            element.fire('data-translate-initialize');
+            element._change_language_listener();
+            element.detectLanguage();
+        }
+    };
+</script>
