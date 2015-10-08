@@ -12,6 +12,7 @@ You should add it to your component's behaviors.
 
 ```javascript
   behaviors: [DataBehaviors.DataTranslate]
+  ```
   
 Then you should add properties, that you want to be translated. For example, we'll add property `labelClearButton` and it's translations.
 
@@ -30,3 +31,4 @@ Then you should add properties, that you want to be translated. For example, we'
             en: {labelClearButton: 'clear'},     //here you can add as many translations as youo want
             ru: {labelClearButton: 'стереть'}
         }
+        ```
