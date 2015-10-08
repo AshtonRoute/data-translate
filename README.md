@@ -56,7 +56,13 @@ Values are:
 ```html
 <html lang="en">
 ```
-* `sibling` - detects or sets language based on closest element (upper) with `lang` attribute(property).  Ex. ```html <element lang="en"> ```
-* `self` - detects or sets language based on current element's `lang` attribute(property). Ex ```html <element lang="en"> ```
+* `sibling` - detects or sets language based on closest element (upper) with `lang` attribute(property).  Ex:
+```html
+<element lang="en">
+```
+* `self` - detects or sets language based on current element's `lang` attribute(property). Ex:
+```html
+<element lang="en">
+```
 * `browser` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
 * `server` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
