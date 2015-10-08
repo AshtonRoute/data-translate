@@ -32,3 +32,28 @@ Then you should add properties, that you want to be translated. For example, we'
             ru: {labelClearButton: 'стереть'}
         }
   ```
+## Options
+
+There are also options that you can specify for detection and changing of language.
+
+```javascript
+  detectLanguageFrom: {
+    type: String,
+    notify: true,
+    reflectToAttribute: true,
+    value: 'html'
+  },
+  
+  getLanguageFrom: {
+      type: String,
+      notify: true,
+      reflectToAttribute: true,
+      value: 'html'
+    }
+   ```
+Values are:
+* `html` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
+* `sibling` - detects or sets language based on closest element (upper) with `lang` attribute(property).  Ex. ```html <element lang="en"> ```
+* `self` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
+* `browser` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
+* `server` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
