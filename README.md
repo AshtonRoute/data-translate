@@ -41,14 +41,14 @@ There are also options that you can specify for detection and changing of langua
     type: String,
     notify: true,
     reflectToAttribute: true,
-    value: 'html'
+    value: 'html' // any of available values
   },
   
   getLanguageFrom: {
       type: String,
       notify: true,
       reflectToAttribute: true,
-      value: 'html'
+      value: 'html' //all except server
     }
    ```
 Values are:
@@ -64,5 +64,5 @@ Values are:
 ```html
 <element lang="en">
 ```
-* `browser` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
-* `server` - detects or sets language based on `lang` attribute(property) of ```html <html lang="en"> ```
+* `browser` - detects or sets language based on `language` or `userLanguage` or `browserLanguage` or `systemLanguage` property of `window.navigator`. It'll use the first not null.
+* `server` - detects language based on `xhr` response from server.
