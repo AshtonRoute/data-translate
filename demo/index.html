@@ -24,7 +24,7 @@
   <button id="btn_en" onclick="change_to_en()">Change to EN</button>
   <button id="btn_ru" onclick="change_to_ru()">Change to RU</button>
 
-  <material-input id="inputLogin" icon="social:person" label="{{labelLogin}}" error-message$="[[errorMessageLogin]]" auto-validate="true" type="text" name="user[name]" clear-button required autofocus minlength="3" maxlength="15" char-counter="true" allowed-pattern="^[A-Za-z0-9_-]$" prevent-invalid-input="true" label-clear-button="{{labelClearButton}}"></material-input>
+  <material-input id="inputLogin" icon="social:person" label="Login" error-message$="Invalid login" auto-validate="true" type="text" name="user[name]" clear-button required autofocus minlength="3" maxlength="15" char-counter="true" allowed-pattern="^[A-Za-z0-9_-]$" prevent-invalid-input="true"></material-input>
 
   <script>
       function change_to_en() {
