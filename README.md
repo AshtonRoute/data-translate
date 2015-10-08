@@ -66,3 +66,6 @@ Values are:
 ```
 * `browser` - detects or sets language based on `language` or `userLanguage` or `browserLanguage` or `systemLanguage` property of `window.navigator`. It'll use the first not null.
 * `server` - detects language based on `xhr` response from the server.
+
+## Useful functions
+
