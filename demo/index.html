@@ -1,1 +1,39 @@
+<html>
+<head>
 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>data-translate demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+
+  <link rel="import" href="material-input.html">
+
+  <style is="custom-style">
+    body {
+      padding: 40px;
+    }
+
+  </style>
+
+</head>
+<body unresolved>
+  
+  <button id="btn_en" onclick="change_to_en()">Change to EN</button>
+  <button id="btn_ru" onclick="change_to_ru()">Change to RU</button>
+
+  <material-input id="inputLogin" icon="social:person" label="{{labelLogin}}" error-message$="[[errorMessageLogin]]" auto-validate="true" type="text" name="user[name]" clear-button required autofocus minlength="3" maxlength="15" char-counter="true" allowed-pattern="^[A-Za-z0-9_-]$" prevent-invalid-input="true" label-clear-button="{{labelClearButton}}"></material-input>
+
+  <script>
+      function change_to_en() {
+        document.documentElement.lang = 'en';
+      };
+      
+      function change_to_ru() {
+        document.documentElement.lang = 'ru';
+      };
+  </script>
+</body>
+</html>
