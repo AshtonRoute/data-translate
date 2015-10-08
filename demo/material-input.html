@@ -1,0 +1,95 @@
+<link rel="import" href="../../../vendor/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../vendor/bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../vendor/bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../../vendor/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../vendor/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../vendor/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../vendor/bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../data-translate/data-translate.html">
+<script type="text/javascript" src="material-input.js"></script>
+
+<dom-module id="material-input">
+
+    <style is="custom-style">
+
+        :host {
+            display: block;
+
+        @apply(--material-input);
+        }
+
+        :host paper-icon-button {
+            color: var(--paper-icon-button-icon-color, --paper-red-300);
+            --iron-icon-width: 15px;
+            --iron-icon-height: 15px;
+            padding: 0px 4px;
+        }
+
+        :host #input_icon {
+            margin-right: 8px;
+            color: var(--iron-icon-color, black);
+        }
+
+        .clearTooltip {
+            font-weight: 500;
+
+        --paper-tooltip: {
+             padding: 0 8px;
+             border-radius: 4px;
+         }
+        }
+    </style>
+
+    <template>
+
+        <paper-input id="input"
+                     no-label-float="[[noLabelFloat]]"
+                     label="{{label}}"
+                     disabled$="[[disabled]]"
+                     bind-value="{{value}}"
+                     invalid="{{invalid}}"
+                     prevent-invalid-input="[[preventInvalidInput]]"
+                     allowed-pattern="[[allowedPattern]]"
+                     auto-validate="[[autoValidate]]"
+                     error-message="[[errorMessage]]"
+                     validator="[[validator]]"
+                     type$="{{type}}"
+                     pattern$="[[pattern]]"
+                     required$="[[required]]"
+                     autocomplete$="[[autocomplete]]"
+                     char-counter="[[charCounter]]"
+                     autofocus$="[[autofocus]]"
+                     inputmode$="[[inputmode]]"
+                     minlength$="[[minlength]]"
+                     maxlength$="[[maxlength]]"
+                     min$="[[min]]"
+                     max$="[[max]]"
+                     step$="[[step]]"
+                     name$="[[name]]"
+                     placeholder$="[[placeholder]]"
+                     readonly$="[[readonly]]"
+                     list$="[[list]]"
+                     size$="[[size]]"
+                     autocapitalize$="[[autocapitalize]]"
+                     autocorrect$="[[autocorrect]]"
+                     on-focusout="resetType"
+                     on-mouseleave="resetType">
+            <template is="dom-if" if="[[icon]]">
+                <iron-icon id="input_icon" icon="[[icon]]" on-click="showHideInputContent" prefix></iron-icon>
+            </template>
+
+            <template is="dom-if" if="{{isClearAndHaveValue(clearButton, value)}}">
+                <paper-icon-button suffix id="clearButton" on-click="clearInput" icon="clear" alt="{{labelClearButton}}" tabindex="-1"></paper-icon-button>
+                <paper-tooltip suffix for="clearButton" class="clearTooltip">{{labelClearButton}}</paper-tooltip>
+            </template>
+        </paper-input>
+
+    </template>
+
+</dom-module>
+
+<script>
+
+    Polymer(materialInput);
+
+</script>
