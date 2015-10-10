@@ -1,11 +1,11 @@
 {
-  "name": "data-translate",
+  "name": "data-translate-behavior",
   "version": "1.0.0",
   "authors": [
     "Anton Bartsits <ashtonroute@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/AshtonRoute/data-translate",
+  "homepage": "https://github.com/AshtonRoute/data-translate-behavior",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -15,14 +15,14 @@
   ],
   "keywords": [
     "web-components",
-    "data-translate"
+    "data-translate-behavior"
   ],
   "main": [
-    "data-translate.html"
+    "data-translate-behavior.html"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/AshtonRoute/data-translate.git"
+    "url": "git://github.com/AshtonRoute/data-translate-behavior.git"
   },
   "dependencies": {
     "polymer": "polymer/polymer#^1.1.2"
