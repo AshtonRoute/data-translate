@@ -105,7 +105,7 @@ Set `self` to `true` if you also want to set current element's property to `newv
 
 ## Events
 
-`data-translate-initialize` - fired on `attached` before adding Observer and detecting language.
+* `data-translate-initialize` - fired on `attached` before adding Observer and detecting language.
 
 It's better to add/change translations on this event, otherwise you'll have to switch language for changes to appear.
 
@@ -116,12 +116,30 @@ Example:
   element.setPropToAllDataTranslateChildren('detectLanguageFrom', 'browser', true);
 ```
 
+* `current-language-change` - fired when `currentLanguage` property changes.
+* `translations-language-change` - fired when `translations` property changes.
+
 ## Examples:
 
 Data:
 
 ```javascript
   properties: {
+  
+    mySuperLogin: {
+      type: String,
+      computed: "t('labels.login', translations, currentLanguage)"
+    },
+    
+    mySuperTitle: {
+      type: String,
+      computed: "t('labels.mainTitle', translations, currentLanguage)"
+    },
+    
+    mySuperPass: {
+      type: String,
+      computed: "t('labels.password', translations, currentLanguage)"
+    },
   
     translations: {
         type: Object,
@@ -156,6 +174,10 @@ Use our functions:
               // we want to change some translations here
               element.translations.en.labels.login = 'Email';
               element.translations.ru.labels.login = 'Электронная почта';
+          });
+          
+          element.addEventListener('current-language-change', function(e) {
+            console.log('My login: ' + element.mySuperLogin);
           });
         });
 ```
