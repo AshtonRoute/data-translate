@@ -1,4 +1,4 @@
-# data-translate
+# data-translate-behavior
 Polymer `^1.0` behavior that provides an easy translation service for your web components.
 It uses same hierarchy as [I18n](https://github.com/svenfuchs/i18n)
 
