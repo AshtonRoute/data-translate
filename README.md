@@ -1,5 +1,6 @@
 # data-translate
-Polymer `^1.0` behavior that provides an easy translation service for your web components
+Polymer `^1.0` behavior that provides an easy translation service for your web components.
+It uses same hierarchy as [I18n](https://github.com/svenfuchs/i18n)
 
 ## When to use
 
@@ -93,3 +94,68 @@ It uses [Element.querySelectorAll(selectors)](https://developer.mozilla.org/en-U
 * `setPropToAllDataTranslateChildren(string prop, newval, bool self, deep)` - sets the required property for all objects found by `findAllDataTranslateChildren()`. 
 
 Set `self` to `true` if you also want to set current element's property to `newval`.
+
+* `setPropToDataTranslateChildrenBySelector(string selectors, string prop, newval, bool self)` - sets the required property for all objects found by `findDataTranslateChildrenBySelector()`. 
+
+Set `self` to `true` if you also want to set current element's property to `newval`.
+
+* `removeTranslations(string path)` - removes specified translation from all languages.
+
+`path` - path to translation.
+
+## Events
+
+`data-translate-initialize` - fired on `attached` before adding Observer and detecting language.
+
+It's better to add/change translations on this event, otherwise you'll have to switch language for changes to appear.
+
+Also useful to set `detectLanguageFrom` or `getLanguageFrom` property. They're both `reflectToAttribute: true`. So, feel free to set them as atributes.
+
+Example:
+```javascript
+  element.setPropToAllDataTranslateChildren('detectLanguageFrom', 'browser', true);
+```
+
+## Examples:
+
+Data:
+
+```javascript
+  properties: {
+  
+    translations: {
+        type: Object,
+        notify: true,
+        value: {
+            en: {
+              labels: {
+                login: 'Username',
+                mainTitle: 'My Super Form',
+                password: 'Password'
+              }
+            },
+            ru: {
+              labels: {
+                login: 'Имя пользователя',
+                mainTitle: 'Моя классная форма',
+                password: 'Пароль'
+              }
+            }
+        }
+    }
+  }
+```
+
+Use our functions: 
+```javascript
+  $(document).ready(function(){
+          var element = document.querySelector('#ourCoolElement');
+          element.addEventListener('data-translate-initialize', function(e) {
+              element.setPropToAllDataTranslateChildren('detectLanguageFrom', 'browser', true); // when page is loading  we're detecting our language from user's browser.
+              element.removeTranslations('labels.mainTitle'); // we don't want labels.mainTitle to show up
+              // we want to change some translations here
+              element.translations.en.labels.login = 'Email';
+              element.translations.ru.labels.login = 'Электронная почта';
+          });
+        });
+```
