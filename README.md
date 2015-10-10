@@ -77,3 +77,5 @@ Source: current `document`
 * `findAllDataTranslateChildren(bool deep)` - returns `Array` of web components that was extended with `DataTranslate` behavior.
 Source: current element's `children`.
 `bool deep` - default: `true`. If `true` will search recursively, if `false` will search only in `children` property.
+* `findDataTranslateChildrenBySelector(string selectors)` - returns `Array` of web components that was extended with `DataTranslate` behavior. 
+Source: current element's `children`. It uses [Element.querySelectorAll(selectors)](https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll)
