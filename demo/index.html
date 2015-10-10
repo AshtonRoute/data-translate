@@ -8,6 +8,7 @@
   <title>data-translate demo</title>
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../jquery2/jquery.js"></script>
 
   <link rel="import" href="material-input.html">
 
@@ -37,6 +38,17 @@
       function change_to_ru() {
         document.documentElement.lang = 'ru';
       };
+      
+      $(document).ready(function(){
+        var input = document.querySelector('#inputLogin');
+        input.addEventListener('data-translate-initialize', function(e) {
+            input.setPropToAllDataTranslateChildren('detectLanguageFrom', 'browser', true); // when page is loading  we're detecting our language from user's browser.
+            //input.removeTranslations('labelClearButton'); // you can remove translations here
+            // or you can change them here
+            input.translations.en.labelClearButton = 'Clean this area';
+            input.translations.ru.labelClearButton = 'Очистить данное поле';
+        });
+      });
   </script>
 </body>
 </html>
