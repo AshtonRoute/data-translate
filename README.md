@@ -2,6 +2,10 @@
 Polymer `^1.0` behavior that provides an easy translation service for your web components.
 It uses same hierarchy as [I18n](https://github.com/svenfuchs/i18n)
 
+## Install
+
+`bower install --save data-translate-behavior`
+
 ## When to use
 
 If you have some web components that need to be translated, but you don't want to translate it each time you use it.
