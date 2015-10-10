@@ -88,8 +88,14 @@
                                     break;
                                 case 4 : // COMPLETED
                                     element.currentLanguage = JSON.parse(xhr.responseText).lang;
+                                    if(!(element.currentLanguage && !/^\s*$/.test(element.currentLanguage)))
+                                        console.error("Couldn't detect current language based on '" + element.getLanguageFrom + "' of " + element.localName);
+                                    else
+                                        element.updateLanguage();
                                     break;
-                                default: console.error(xhr.status + ': ' + xhr.statusText);
+                                default:
+                                    console.error(xhr.status + ': ' + xhr.statusText);
+                                    console.error("Couldn't detect current language based on '" + element.getLanguageFrom + "' of " + element.localName);
                             }
                         };
 
@@ -104,11 +110,6 @@
                 default :
                     console.error("You didn't specify detectLanguageFrom property of " + element.localName);
             }
-
-            setTimeout(function() {
-                if(!(element.currentLanguage && !/^\s*$/.test(element.currentLanguage)))
-                    console.error("Couldn't detect current language based on '" + element.getLanguageFrom + "' of " + element.localName);
-            }, 2000);
         },
 
         updateLanguage: function() {
