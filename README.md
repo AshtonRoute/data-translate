@@ -72,4 +72,8 @@ Values are:
 
 ## Useful functions
 
-* `findAllDataTranslateOnPage()` - returns every web component, that has DataTranslate behavior
+* `findAllDataTranslateOnPage()` - returns `Array` of web components that was extended with `DataTranslate` behavior. 
+Source: current `document`
+* `findAllDataTranslateChildren(bool deep)` - returns `Array` of web components that was extended with `DataTranslate` behavior.
+Source: current element's `children`.
+`bool deep` - default: `true`. If `true` will search recursively, if `false` will search only in `children` property.
