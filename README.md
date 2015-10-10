@@ -22,7 +22,7 @@ Then you should add properties, that you want to be translated. For example, we'
   
     labelClearButton: {
         type: String,
-        computed: "t('labelClearButton', translations, currentLanguage)"  //you have to specify name of property and 2 required arguments :translations, currentLanguage, which are required for notify changes events
+        computed: "t('labelClearButton', translations, currentLanguage)"  //you have to specify path to property and 2 required arguments: translations and currentLanguage, which are required to notify changes in Polymer
     },
     
     translations: {
@@ -73,6 +73,12 @@ Values are:
 
 ## Useful functions
 
+* `t(string path)` - returns translation based on `translations[currentLanguage] + path`. Required in Polymer computed properties.
+
+* `detectLanguage()` - detects language based on `detectLanguageFrom` property and sets returned value to `currentLanguage` property. Useful when `detectLanguageFrom` was set to `server`. You'll have to call `detectLanguage()` to grab language from the server. Then `detectLanguage()` will automatically assign received value to `currentLanguage` property and update DOM. 
+
+* `updateLanguage()` - updates object based on `getLanguageFrom` (later just `object`) with value of `currentLanguage` property. Basically, you should use this method if you want to update `object` manually. But remember that translations will only be updated if `currentLanguage` has changed. If you assigned `server` to `detectLanguageFrom`, then this method will be called automatically on successful response of `updateLanguage()` after receiving new language from server.
+
 * `findAllDataTranslateOnPage()` - returns `Array` of web components that was extended with `DataTranslate` behavior. 
 
 Source: current `document`
@@ -117,7 +123,7 @@ Example:
 ```
 
 * `current-language-change` - fired when `currentLanguage` property changes.
-* `translations-language-change` - fired when `translations` property changes.
+* `translations-change` - fired when `translations` property changes.
 
 ## Examples:
 
