@@ -72,3 +72,4 @@ Values are:
 
 ## Useful functions
 
+* `findAllDataTranslateOnPage()` - returns every web component, that has DataTranslate behavior
