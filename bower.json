@@ -1,0 +1,30 @@
+{
+  "name": "data-translate",
+  "version": "1.0.0",
+  "authors": [
+    "Anton Bartsits <ashtonroute@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/AshtonRoute/data-translate",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "keywords": [
+    "web-components",
+    "data-translate"
+  ],
+  "main": [
+    "data-translate.html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AshtonRoute/data-translate.git"
+  },
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.1.2"
+  }
+}
