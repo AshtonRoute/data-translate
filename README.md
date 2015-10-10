@@ -65,9 +65,9 @@ Values are:
 <element lang="en">
 ```
 * `browser` - detects or sets language based on `language` or `userLanguage` or `browserLanguage` or `systemLanguage` property of `window.navigator`. It'll use the first not null.
-* `server` - detects language based on url specified in `detect-request-url` and `xhr` response from the server.
+* `server` - detects language based on url specified in `detectRequestUrl` and `xhr` response from the server.
 ```html
-<element detectRequestUrl="somecoolurl.json">
+<element detect-request-url="somecoolurl.json">
 ```
 
 ## Useful functions
