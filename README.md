@@ -4,7 +4,9 @@ It uses same hierarchy as [I18n](https://github.com/svenfuchs/i18n)
 
 ## Install
 
-`bower install --save data-translate-behavior`
+```
+bower install --save data-translate-behavior
+```
 
 ## When to use
 
