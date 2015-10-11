@@ -65,7 +65,9 @@ Values are:
 ```
 * `sibling` - detects and then gets language based on closest element (upper) with `lang` attribute(property).  Ex:
 ```html
-<element lang="en">
+<div lang="en">
+  <element>My Super Element</element>
+</div>
 ```
 * `self` - detects and then gets language based on current element's `lang` attribute(property). Ex:
 ```html
